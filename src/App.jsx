@@ -27,7 +27,7 @@ function App() {
       <Route path='/adminlogin' element={loginResponse? <AdminLogin />: <PagenotFound/>} />
         <Route path='/doctorlogin' element={<AdminLogin Doctorlogin={true} />} />
 
-        <Route path='/login' element={loginResponse ?<Login/> : <PagenotFound/> } />
+        <Route path='/login' element={<Login/> } />
         <Route path='patientregister' element={<Login Patientregister={true} />} />
 
         <Route path='/adddoctor' element={<AddDoctor />} />
