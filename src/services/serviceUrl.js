@@ -1,1 +1,1 @@
-export const serverUrl = "http://localhost:4000"
+export const serverUrl = "https://health-server-i0ti.onrender.com"

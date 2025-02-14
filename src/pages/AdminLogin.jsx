@@ -10,7 +10,7 @@ import { loginResponseContext } from '../context/ContextShare';
 
 
 function AdminLogin({ Doctorlogin }) {
-    const {setLoginResponse} = useContext(loginResponseContext)
+    const { setLoginResponse } = useContext(loginResponseContext)
     const navigate = useNavigate()
     const [dToken, setDToken] = useState("")
 
@@ -23,7 +23,7 @@ function AdminLogin({ Doctorlogin }) {
         email: "",
         password: ""
     })
-    console.log(loginDoctor);
+    // console.log(loginDoctor);
 
     const handleLogin = async () => {
         const { email, password } = adminLogin
@@ -63,15 +63,15 @@ function AdminLogin({ Doctorlogin }) {
         if (!email || !password) {
             toast.info('Fill the form completely')
 
-        } else{
-            const result = await axios.post(`${serverUrl}/doctor-login`,{email,password})
+        } else {
+            const result = await axios.post(`${serverUrl}/doctor-login`, { email, password })
             console.log(result);
-            if(result.status == 200){
+            if (result.status == 200) {
                 toast.success('Login Successful')
                 setLoginResponse(true)
                 sessionStorage.setItem("dToken", result.data.token)
                 setDToken(result.data.token);
-                console.log(result.data.token);
+                // console.log(result.data.token);
                 setLoginDoctor({
                     email: "",
                     password: ""
@@ -79,14 +79,14 @@ function AdminLogin({ Doctorlogin }) {
                 setTimeout(() => {
                     navigate('/doctorappointment')
                 }, 2000)
-                
-            }else if (result.status == 406) {
+
+            } else if (result.status == 406) {
                 toast.warning('incorrect email or password')
             }
             else {
                 toast.error('something went wrong')
             }
-            
+
         }
 
     }

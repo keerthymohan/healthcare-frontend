@@ -12,106 +12,106 @@ function AddDoctor() {
   const [preview, setPreview] = useState("")
 
   const [aToken, setAToken] = useState(sessionStorage.getItem('aToken') || "")
-// console.log(aToken);
-const [key, setKey] = useState(1)
-const [doctordetails, setDoctorDetails] = useState({
-  name: "",
-  speciality: "Dermatologist",
-  email: "",
-  password: "",
-  degree: "",
-  experience: "1 year",
-  fees: "",
-  contactnumber: "",
-  about: "",
-  image: ""
-})
-// console.log(doctordetails);
+  // console.log(aToken);
+  const [key, setKey] = useState(1)
+  const [doctordetails, setDoctorDetails] = useState({
+    name: "",
+    speciality: "Dermatologist",
+    email: "",
+    password: "",
+    degree: "",
+    experience: "1 year",
+    fees: "",
+    contactnumber: "",
+    about: "",
+    image: ""
+  })
+  // console.log(doctordetails);
 
-const handleFile = (e) => {
-  setDoctorDetails({ ...doctordetails, image: e.target.files[0] })
-}
-useEffect(() => {
-  if (doctordetails.image) {
-    setPreview(URL.createObjectURL(doctordetails.image))
-
+  const handleFile = (e) => {
+    setDoctorDetails({ ...doctordetails, image: e.target.files[0] })
   }
-}, [doctordetails.image])
+  useEffect(() => {
+    if (doctordetails.image) {
+      setPreview(URL.createObjectURL(doctordetails.image))
 
-const addDoctor = async()=>{
-  const { name, speciality, email, password, degree, experience, fees, contactnumber, about, image } = doctordetails
-  if (!name || !speciality || !email || !password || !degree || !experience || !fees || !contactnumber || !about || !image) {
-    toast.info('Enter the necessary details')
+    }
+  }, [doctordetails.image])
 
-  }else{
-    const reqBody = new FormData()
-    reqBody.append("name", name)
-    reqBody.append("speciality", speciality)
-    reqBody.append("email", email)
-    reqBody.append("password", password)
-    reqBody.append("degree", degree)
-    reqBody.append("experience", experience)
-    reqBody.append("fees", fees)
-    reqBody.append("contactnumber", contactnumber)
-    reqBody.append("about", about)
-    reqBody.append("image", image)
-    if (aToken) {
-      const reqHeader = {
-        "Content-Type": "multipart/form-data",
-        "Authorization": `Bearer ${aToken}`
-      }
-      const result = await addDoctorApi(reqBody,reqHeader)
-      // console.log(result);
-      if(result.status == 200){
-        toast.success("Doctor added successfully")
+  const addDoctor = async () => {
+    const { name, speciality, email, password, degree, experience, fees, contactnumber, about, image } = doctordetails
+    if (!name || !speciality || !email || !password || !degree || !experience || !fees || !contactnumber || !about || !image) {
+      toast.info('Enter the necessary details')
 
-        setDoctorDetails({
-          name: "",
-          speciality: "",
-          email: "",
-          password: "",
-          degree: "",
-          experience: "",
-          fees: "",
-          contactnumber: "",
-          about: "",
-          image: ""
-
-        })
-        setTimeout(() => {
-          navigate('/admindoctorlist')
-      }, 2000)
-        setPreview("")
-        if(key==1){
-          setKey(0)
-        }else{
-          setKey(1)
+    } else {
+      const reqBody = new FormData()
+      reqBody.append("name", name)
+      reqBody.append("speciality", speciality)
+      reqBody.append("email", email)
+      reqBody.append("password", password)
+      reqBody.append("degree", degree)
+      reqBody.append("experience", experience)
+      reqBody.append("fees", fees)
+      reqBody.append("contactnumber", contactnumber)
+      reqBody.append("about", about)
+      reqBody.append("image", image)
+      if (aToken) {
+        const reqHeader = {
+          "Content-Type": "multipart/form-data",
+          "Authorization": `Bearer ${aToken}`
         }
-      }else if(result.success == 406){
-        result.warning(result.response.data)
-      }else{
-        toast.error("something went wrong")
+        const result = await addDoctorApi(reqBody, reqHeader)
+        // console.log(result);
+        if (result.status == 200) {
+          toast.success("Doctor added successfully")
+
+          setDoctorDetails({
+            name: "",
+            speciality: "",
+            email: "",
+            password: "",
+            degree: "",
+            experience: "",
+            fees: "",
+            contactnumber: "",
+            about: "",
+            image: ""
+
+          })
+          setTimeout(() => {
+            navigate('/admindoctorlist')
+          }, 2000)
+          setPreview("")
+          if (key == 1) {
+            setKey(0)
+          } else {
+            setKey(1)
+          }
+        } else if (result.success == 406) {
+          result.warning(result.response.data)
+        } else {
+          toast.error("something went wrong")
+        }
+      } else {
+        toast.warning('please login')
       }
-    }else{
-      toast.warning('please login')
     }
   }
-}
-useEffect(() => {
-  if (sessionStorage.getItem('aToken')) {
-    setAToken(sessionStorage.getItem("aToken"))
-  }
-}, [])
+  useEffect(() => {
+    if (sessionStorage.getItem('aToken')) {
+      setAToken(sessionStorage.getItem("aToken"))
+    }
+  }, [])
 
   return (
     <>
-    <AdminHeader/>
-    <div className='container'>
+      <AdminHeader />
+      <div className='container'>
         <h4 className='fw-bold my-5'>ADD DOCTOR</h4>
         <div className='border p-md-4 p-3'>
           <label htmlFor="doctorimage">
             <input type="file" id='doctorimage' className='d-none' key={key} onChange={(e) => handleFile(e)} />
-            <img src={preview?preview: profileicon} alt="" style={{ width: '100px', height: '100px' }} />
+            <img src={preview ? preview : profileicon} alt="" style={{ width: '100px', height: '100px' }} />
             <h6>Upload doctor image</h6>
           </label>
           <div className="d-md-flex mt-4 ">

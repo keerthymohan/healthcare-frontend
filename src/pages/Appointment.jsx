@@ -11,7 +11,7 @@ import axios from 'axios'
 function Appointment() {
   const navigate = useNavigate()
   const [token, settoken] = useState(sessionStorage.getItem('token') || "")
-  
+
   // console.log(token);
   const [doctors, setDoctors] = useState([])
 
@@ -30,13 +30,13 @@ function Appointment() {
   }, [])
 
   const { docId } = useParams()
-  console.log(docId);
+  // console.log(docId);
 
   const [doctorinfo, setdocinfo] = useState({})
   const fetchdoctorInfo = async () => {
     const doctorinfo = doctors.find(doc => doc._id == docId)
     setdocinfo(doctorinfo)
-    console.log(doctorinfo);
+    // console.log(doctorinfo);
   }
 
   useEffect(() => {
@@ -76,27 +76,23 @@ function Appointment() {
 
 
         let day = currentDate.getDate()
-        let month = currentDate.getMonth()+1
+        let month = currentDate.getMonth() + 1
         let year = currentDate.getFullYear()
-        const slotDate =`${day}-${month}-${year}`
+        const slotDate = `${day}-${month}-${year}`
         // console.log(slotDate);
         const slotTime = formattedTime
         // console.log(slotTime);
         const isSlotAvailable = doctorinfo.slots_booked[slotDate] && doctorinfo.slots_booked[slotDate].includes(slotTime) ? false : true
 
-        if(isSlotAvailable){
+        if (isSlotAvailable) {
 
-           // add slot to array
-           timeSlots.push({
+          // add slot to array
+          timeSlots.push({
             datetime: new Date(currentDate),
             time: formattedTime
           })
 
         }
-        
-
-         
-
 
 
         // increment current time by 30 minute
@@ -107,42 +103,39 @@ function Appointment() {
     }
   }
 
-  const bookAppointment = async()=>{
-    if(!token){
+  const bookAppointment = async () => {
+    if (!token) {
       toast.warning('Login to book appoitment')
       return navigate('/login')
     }
-    try{
+    try {
       const date = docSlots[slotIndex][0].datetime
       let day = date.getDate()
-      let month = date.getMonth()+1
+      let month = date.getMonth() + 1
       let year = date.getFullYear()
       const slotDate = `${day}-${month}-${year}`
       // console.log(slotDate);
 
       const result = await axios.post(`${serverUrl}/book-appointment`, { docId, slotDate, slotTime }, { headers: { Authorization: `Bearer ${token}` } })
       // console.log(result);
-      if(result.status == 200){
+      if (result.status == 200) {
         toast.success(result.data.message)
         getDoctorData()
-        setTimeout(()=>{
+        setTimeout(() => {
           navigate('/myappointment')
 
-        },2000)
+        }, 2000)
 
-      }else{
+      } else {
         toast.error(result.data.message)
       }
 
-    }catch(error){
-console.log(error);
-toast.error(error.message)
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message)
 
     }
   }
-
-
-
 
 
   useEffect(() => {
@@ -153,7 +146,7 @@ toast.error(error.message)
 
   return (
     <>
-    <PatientHeader />
+      <PatientHeader />
       {doctorinfo &&
         <div className="container mt-3">
           <div className="row">

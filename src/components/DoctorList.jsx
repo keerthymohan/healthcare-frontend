@@ -9,49 +9,45 @@ import Card from 'react-bootstrap/Card';
 import { serverUrl } from '../services/serviceUrl'
 
 function DoctorList() {
-  const [alldoc,setAlldoc] = useState([])
-  // const [searchKey,setSearchKey] = useState("")
-const [searchKey,setSearchKey] = useState("")
-  const getAllUserDoctor = async()=>{
+  const [alldoc, setAlldoc] = useState([])
+  const [searchKey, setSearchKey] = useState("")
+  const getAllUserDoctor = async () => {
     const result = await getAllUserDoctorApi(searchKey)
 
     // console.log(result);
     setAlldoc(result.data)
 
   }
-  useEffect(()=>{
+  useEffect(() => {
     getAllUserDoctor()
-  },[])
+  }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     getAllUserDoctor()
-  },[searchKey])
+  }, [searchKey])
 
 
-//   useEffect(()=>{
-//     getAllUserDoctor()
-// },[searchKey])  
   return (
     <>
-    <PatientHeader/>
-    <div className="my-5">
-            <div className="container">
-              <div className="row">
-                <div className="col-md-4"></div>
-                <div className="col-md-4 d-flex">
-                  <input onChange={(e)=>setSearchKey(e.target.value)} type="text" placeholder='Specialization' className='form-control shadow' />
-                    <FontAwesomeIcon style={{ color: 'lightgray', marginTop: '10px', marginLeft: '-30px' }} icon={faMagnifyingGlass} />
-                </div>
-                <div className="col-md-4"></div>
-              </div>
-
+      <PatientHeader />
+      <div className="my-5">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-4"></div>
+            <div className="col-md-4 d-flex">
+              <input onChange={(e) => setSearchKey(e.target.value)} type="text" placeholder='Specialization' className='form-control shadow' />
+              <FontAwesomeIcon style={{ color: 'lightgray', marginTop: '10px', marginLeft: '-30px' }} icon={faMagnifyingGlass} />
             </div>
+            <div className="col-md-4"></div>
           </div>
-          <div className="container">
-            <div className="row">
-              {alldoc.map((item,index)=>(
-                <div className="col-md-3 mt-3" key={index}>
-                  <Link to={`/appointment/${item._id}`} style={{ textDecoration: 'none' }}>
+
+        </div>
+      </div>
+      <div className="container">
+        <div className="row">
+          {alldoc.map((item, index) => (
+            <div className="col-md-3 mt-3" key={index}>
+              <Link to={`/appointment/${item._id}`} style={{ textDecoration: 'none' }}>
                 <Card style={{ width: '100%' }}>
                   <Card.Img variant="top" src={`${serverUrl}/upload/${item.image}`} style={{ height: '170px' }} />
                   <Card.Body>
@@ -65,13 +61,12 @@ const [searchKey,setSearchKey] = useState("")
                 </Card>
               </Link>
 
-                </div>
-
-              ))
-                }
             </div>
-          {/* <Doctors/> */}
-          </div>
+
+          ))
+          }
+        </div>
+      </div>
     </>
   )
 }

@@ -10,29 +10,29 @@ function AdminAppointment() {
 
   const getAllAppointment = async () => {
     try {
-      const result = await axios.get(`${serverUrl}/admin-appointment`,{headers: {Authorization: `Bearer ${aToken}` }})
+      const result = await axios.get(`${serverUrl}/admin-appointment`, { headers: { Authorization: `Bearer ${aToken}` } })
       // console.log(result);
-      if(result.status == 200){
+      if (result.status == 200) {
         setAppointment(result.data.appointment.reverse())
         console.log(result.data.appointment);
-        
-      }else{
+
+      } else {
         toast.error(result.data.message)
-        
+
       }
-      
+
 
     } catch (error) {
       console.log(error);
       toast.error(error.message)
     }
   }
-  useEffect(()=>{
-    if(aToken){
+  useEffect(() => {
+    if (aToken) {
       getAllAppointment()
     }
 
-  },[aToken])
+  }, [aToken])
   return (
     <>
       <AdminHeader />
@@ -51,29 +51,29 @@ function AdminAppointment() {
 
               </tr>
             </thead>
-            {appointment.map((item,index)=>(
+            {appointment.map((item, index) => (
               <tbody className='text-center'>
 
-              <tr>
-              <td className='p-3'>{index+1}</td>
-              <td className='p-3'>{item.userData.patientname}</td>
-              <td className='p-3'>{item.docData.name} </td>
-              <td className='p-3'>{item.slotDate} , {item.slotTime} </td>
-              <td className='p-3'>₹ {item.amount}</td>
-              <td>
-                    {item.cancel?
-                    <p className='text-danger'> Cancelled</p>
-                    : item.isCompleted?<p className='text-success'> Completed</p>:
-                    <p className='text-warning'> Booked</p>
-                    
+                <tr>
+                  <td className='p-3'>{index + 1}</td>
+                  <td className='p-3'>{item.userData.patientname}</td>
+                  <td className='p-3'>{item.docData.name} </td>
+                  <td className='p-3'>{item.slotDate} , {item.slotTime} </td>
+                  <td className='p-3'>₹ {item.amount}</td>
+                  <td>
+                    {item.cancel ?
+                      <p className='text-danger'> Cancelled</p>
+                      : item.isCompleted ? <p className='text-success'> Completed</p> :
+                        <p className='text-warning'> Booked</p>
+
                     }
                   </td>
 
-              </tr>
+                </tr>
               </tbody>
 
             ))
-              }
+            }
 
 
           </table>

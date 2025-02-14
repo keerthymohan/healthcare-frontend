@@ -16,7 +16,7 @@ function MyAppointment() {
       // console.log(result);
       if(result.status == 200){
         setappointment(result.data.appointment.reverse())
-        console.log(result.data.appointment);
+        // console.log(result.data.appointment);
         
       }
       

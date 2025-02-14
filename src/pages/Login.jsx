@@ -5,9 +5,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { loginApi, registerRequestApi } from '../services/allApi';
 import { loginResponseContext } from '../context/ContextShare';
 
-function Login({Patientregister}) {
+function Login({ Patientregister }) {
 
-  const {setLoginResponse} = useContext(loginResponseContext)
+  const { setLoginResponse } = useContext(loginResponseContext)
   const navigate = useNavigate()
   const [userdetails, setUserdetails] = useState({
     patientname: "",
@@ -16,15 +16,15 @@ function Login({Patientregister}) {
     password: ""
   })
   // console.log(userdetails);
-  const handleRegister = async ()=>{
+  const handleRegister = async () => {
     const { patientname, email, mobileNumber, password } = userdetails
     if (!patientname || !email || !mobileNumber || !password) {
       toast.info("Fill the form completely")
 
-    }else{
+    } else {
       const result = await registerRequestApi(userdetails)
       // console.log(result);
-      if(result.status == 200){
+      if (result.status == 200) {
         toast.success('Registration successful')
         setUserdetails({
           patientname: "",
@@ -32,11 +32,11 @@ function Login({Patientregister}) {
           mobileNumber: "",
           password: ""
         })
-        setTimeout(()=>{
+        setTimeout(() => {
           navigate('/login')
 
-        },2000)
-      }else if (result.status == 406) {
+        }, 2000)
+      } else if (result.status == 406) {
         toast.warning(result.response.status)
       }
       else {
@@ -47,34 +47,34 @@ function Login({Patientregister}) {
 
   }
 
-  const handleLogin = async()=>{
-    const{email,password}=userdetails
-    if(!email || !password){
+  const handleLogin = async () => {
+    const { email, password } = userdetails
+    if (!email || !password) {
       toast.info('fill the form completely')
-    }else{
-      const result = await loginApi({email,password})
+    } else {
+      const result = await loginApi({ email, password })
       // console.log(result);
-      if(result.status == 200){
+      if (result.status == 200) {
         toast.success('Login Successfull')
         setLoginResponse(true)
-        sessionStorage.setItem("existingUsers",JSON.stringify(result.data.existingUsers))
-        sessionStorage.setItem("token",result.data.token)
+        sessionStorage.setItem("existingUsers", JSON.stringify(result.data.existingUsers))
+        sessionStorage.setItem("token", result.data.token)
 
         setUserdetails({
           email: "",
           password: ""
         })
-        setTimeout(()=>{
+        setTimeout(() => {
           navigate('/patienthome')
-        },2000)
+        }, 2000)
 
-      }else if (result.status == 406) {
+      } else if (result.status == 406) {
         toast.warning(result.response.status)
       }
       else {
         toast.error('something went wrong')
       }
-      
+
 
     }
 

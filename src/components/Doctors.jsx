@@ -22,7 +22,7 @@ useEffect(() => {
     <>
       <div className="container">
         <div className="row">
-          {doctor.slice(0, 8).map((item, index) => (
+          {doctor.slice(0, 4).map((item, index) => (
 
             <div className="col-md-3 mt-3" key={index}>
               <Link to={`/appointment/${item._id}`} style={{ textDecoration: 'none' }}>
